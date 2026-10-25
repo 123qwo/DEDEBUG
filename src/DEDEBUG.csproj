@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>DEDEBUG</AssemblyName>
+    <RootNamespace>DEDEBUG</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <DebugType>none</DebugType>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GameDir Condition="'$(GameDir)' == ''">$(DICEOMANCER_GAME_DIR)</GameDir>
+    <ManagedDir>$(GameDir)\Diceomancer_Data\Managed</ManagedDir>
+    <CoreDir>$(GameDir)\BepInEx\core</CoreDir>
+    <NoWarn>CS1701;CS1702;CS0436</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildProjectDirectory)\..\.build\generated\GameInputManifest.cs" />
+  </ItemGroup>
+  <Target Name="CheckBuildInputs" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(GameDir)' == ''" Text="Pass GameDir or set DICEOMANCER_GAME_DIR. Use Build.ps1 to generate the input manifest." />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)\..\.build\generated\GameInputManifest.cs')" Text="Run Build.ps1 first to generate the game-specific input manifest." />
+  </Target>
+  <ItemGroup>
+    <Reference Include="BepInEx.Core"><HintPath>$(CoreDir)\BepInEx.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="BepInEx.Unity.Mono"><HintPath>$(CoreDir)\BepInEx.Unity.Mono.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(CoreDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(ManagedDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.TextRenderingModule"><HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.Localization"><HintPath>$(ManagedDir)\Unity.Localization.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>
